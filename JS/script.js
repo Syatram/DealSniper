@@ -6,8 +6,8 @@ const DEAL_TAG = "DEAL";
 const ITEM_TAG = "ITEM"
 
 // Number consts
-const DEAL_THRESHOLD = 0.3;
-const VALUE_THRESHOLD = 3000;
+const DEAL_THRESHOLD = -1.0;
+const VALUE_THRESHOLD = 0;
 const ITEM_TIME_TO_RESET = 60;
 const DEALS_TIME_TO_RESET = 2;
 
@@ -35,11 +35,10 @@ function onDealMessage(message) {
         const ITEM_VALUE = item[4];
         
         if(
-            item[10] == 1 // Is projected?
+            item[7] == 1 // Is projected?
             //|| item[2] > -1 // Is valued?
             || (ITEM_VALUE - activity[3])  / ITEM_VALUE < DEAL_THRESHOLD // Is below deal threshold?
             || ITEM_VALUE < VALUE_THRESHOLD // Is below value threshold?
-            || 
         ) continue;
 
         port.postMessage(URL_START + activity[2]);
@@ -49,9 +48,9 @@ function onDealMessage(message) {
 function onItemMessage(message) { itemsData = message; }
 
 function messaged(message) {
-    console.log(itemsData);
     var type = message["type"];
     
+    console.log("Message received: " + type);
     if(type === DEAL_TAG && itemsData) {
         onDealMessage(message["info"]);
     } else if(type === ITEM_TAG) {
