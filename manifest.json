@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "Deal Catcher",
+    "description": "Get an edge",
+    "version": "0.0.1",
+    "permissions": ["tabs", "notifications"],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "content_scripts": [{
+        "matches": ["https://*/*"],
+        "js": ["JS/script.js"]
+    }],
+    "background": {
+        "service_worker": "JS/service.js"
+    },
+    "web_accessible_resources": [{
+        "resources": ["*.png"],
+    		"matches": ["https://*/*"]
+		}
+	]
+}
