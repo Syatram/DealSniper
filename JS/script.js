@@ -1,4 +1,5 @@
 var itemsData;
+var lastActivities;
 
 // String consts
 const URL_START = "https://www.roblox.com/catalog/";
@@ -37,12 +38,15 @@ function onDealMessage(message) {
         if(
             item[7] == 1 // Is projected?
             //|| item[2] > -1 // Is valued?
-            || (ITEM_VALUE - activity[3])  / ITEM_VALUE < DEAL_THRESHOLD // Is below deal threshold?
+            || lastActivities && lastActivities.includes(activity) // Activity already checked?
+            || activity[3] / ITEM_VALUE > DEAL_THRESHOLD // Is above deal threshold?
             || ITEM_VALUE < VALUE_THRESHOLD // Is below value threshold?
         ) continue;
 
         port.postMessage(URL_START + activity[2]);
     }
+
+    lastActivities = activities;
 }
 
 function onItemMessage(message) { itemsData = message; }
